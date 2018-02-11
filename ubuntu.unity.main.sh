@@ -69,73 +69,57 @@ sudo apt install -y adapta-gtk-theme
 sudo cp $background /usr/share/backgrounds/background$file_type
 sudo cp $background /usr/share/backgrounds/warty-final-ubuntu$file_type
 
-# TERMINAL
-# https://askubuntu.com/questions/731774/how-to-change-gnome-terminal-profile-preferences-using-dconf-or-gsettings 
+gsettings set com.canonical.unity-greeter draw-user-backgrounds true
+gsettings set org.gnome.desktop.background show-desktop-icons true
+gsettings set com.canonical.unity-greeter background $background
+gsettings set org.gnome.desktop.background picture-uri file://$background
+
+gsettings set org.gnome.desktop.wm.preferences theme 'Arc-Darker'
+gsettings set org.gnome.desktop.interface gtk-theme 'Arc-Darker'
+gsettings set org.gnome.desktop.interface icon-theme 'Arc-Icons'
+
+gsettings set org.compiz.unityshell:/org/compiz/profiles/unity/plugins/unityshell/ panel-opacity 0
+gsettings set org.compiz.unityshell:/org/compiz/profiles/unity/plugins/unityshell/ launcher-opacity 0.5
+gsettings set org.compiz.unityshell:/org/compiz/profiles/unity/plugins/unityshell/ launcher-hide-mode 1
+gsettings set org.compiz.unityshell:/org/compiz/profiles/unity/plugins/unityshell/ icon-size 26
+
+gsettings set org.compiz.grid:/org/compiz/profiles/unity/plugins/grid/ animation-duration 125
+gsettings set org.compiz.grid:/org/compiz/profiles/unity/plugins/grid/ fill-color '#34e2e24f'
+gsettings set org.compiz.grid:/org/compiz/profiles/unity/plugins/grid/ outline-color '#34e2e24f'
+gsettings set org.compiz.expo:/org/compiz/profiles/unity/plugins/expo/ selected-color '#34e2e24f'
+
+gsettings set org.gnome.desktop.interface document-font-name 'Sans 9'
+gsettings set org.gnome.desktop.interface font-name 'Ubuntu Regular 9'
+gsettings set org.gnome.desktop.interface monospace-font-name 'Ubuntu Mono 10'
+gsettings set org.gnome.nautilus.desktop font 'Ubuntu Medium 10'
+
+gsettings set com.canonical.unity-greeter logo ''
+
+# GNOME TERMINAL
+# https://askubuntu.com/questions/731774/how-to-change-gnome-terminal-profile-preferences-using-dconf-or-gsettings
+gsettings set org.gnome.Terminal.Legacy.Settings default-show-menubar false
+
 default_profile=$(gsettings get org.gnome.Terminal.ProfilesList default)
 default_profile=${default_profile#"'"} # remove leading and trailing single quotes
 default_profile=${default_profile%"'"} # remove leading and trailing single quotes
 default_profile_path="org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$default_profile/"
 PALETTE="['rgb(46,52,54)', 'rgb(204,0,0)', 'rgb(78,154,6)', 'rgb(196,160,0)', 'rgb(52,101,164)', 'rgb(117,80,123)', 'rgb(6,152,154)', 'rgb(211,215,207)', 'rgb(85,87,83)', 'rgb(239,41,41)', 'rgb(138,226,52)', 'rgb(252,233,79)', 'rgb(114,159,207)', 'rgb(173,127,168)', 'rgb(52,226,226)', 'rgb(238,238,236)']"
 
-gsettings set org.gnome.Terminal.Legacy.Settings default-show-menubar false
 gsettings set $default_profile_path visible-name 'Default-Generated'
-gsettings set $default_profile_path background-color 'rgb(0,43,54)' 
-gsettings set $default_profile_path foreground-color 'rgb(52,226,226)' 
+gsettings set $default_profile_path background-color 'rgb(0,43,54)'
+gsettings set $default_profile_path foreground-color 'rgb(52,226,226)'
 gsettings set $default_profile_path use-transparent-background true
-gsettings set $default_profile_path background-transparency-percent 18 
+gsettings set $default_profile_path background-transparency-percent 18
 gsettings set $default_profile_path palette "$PALETTE"
 gsettings set $default_profile_path use-theme-colors false
-# TODO: gsettings set $default_profile_path use-theme-transparency false
+gsettings set $default_profile_path use-theme-transparency false
 
-# GNOME DE  
-gsettings set org.gnome.desktop.wm.preferences theme 'Arc-Darker'
-gsettings set org.gnome.desktop.interface gtk-theme 'Arc-Darker'  
-gsettings set org.gnome.shell.extensions.user-theme name 'Arc-Dark' 
-gsettings set org.gnome.desktop.interface icon-theme 'Numix-Square' 
-gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize,maximize:' 
-
-# DASH TO DOCK
-gsettings set org.gnome.shell.extensions.dash-to-dock background-opacity 0.25
-gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 28
-gsettings set org.gnome.shell.extensions.dash-to-dock autohide true
-gsettings set org.gnome.shell.extensions.dash-to-dock background-color '#34E2E2' 
-gsettings set org.gnome.shell.extensions.dash-to-dock custom-background-color true
-gsettings set org.gnome.shell.extensions.dash-to-dock show-favorites true  
-gsettings set org.gnome.shell.extensions.dash-to-dock extend-height true
-gsettings set org.gnome.shell.extensions.dash-to-dock custom-theme-shrink true
-gsettings set org.gnome.shell.extensions.dash-to-dock intellihide false
-gsettings set org.gnome.shell.extensions.dash-to-dock opaque-background true 
-
-# FONTS
-gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Cantarell 9'
-gsettings set org.gnome.desktop.interface document-font-name 'Sans 9'
-gsettings set org.gnome.desktop.interface font-name 'Cantarell 9'
-gsettings set org.gnome.desktop.interface monospace-font-name 'Monospace 9'
-
-# WORKSPACES
-gsettings set org.gnome.desktop.wm.preferences num-workspaces 2
-gsettings set org.gnome.mutter.keybindings toggle-tiled-left "['<Super>Left']" #for reference
-gsettings set org.gnome.shell.keybindings toggle-overview  "['<Ctrl><Shift>Space']" 
-# Default gsettings set org.gnome.shell.keybindings toggle-overview "['<Super>s']"
-
-#CUSTOM KEY BINDINGS
-gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/']" 
-gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ name 'Open Terminal'
-gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ command 'gnome-terminal'
-gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ binding '<Ctrl><Shift>T'
-
-# MISC
-gsettings set org.gnome.gnome-screenshot last-save-directory 'file:///home/ereio/downloads' 
-gsettings set org.gnome.desktop.media-handling automount-open false
-gsettings set org.gnome.desktop.media-handling automount false
-gsettings set org.gnome.nautilus.preferences default-folder-viewer 'list-view' 
-gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion' 
-
-
-# CUSTOM STYLING - ARC DARK GNOME SHELL
-arc_shell_style="/usr/share/themes/Arc-Dark/gnome-shell/gnome-shell.css"
-sudo sed -i 's/border-image: url(\"common-assets\/panel\/panel\.svg\") 1 1 1 1;/ /g' $arc_shell_style 
-gsettings set org.gnome.shell.extensions.user-theme name 'Arc-Dark'  
+echo "## REFRESHING UNITY ##"
+until dropbox filestatus /home/$USER/Dropbox | grep -c "syncing" | grep -m 1 "0"; do sleep 1; done
+sleep 5;
+nautilus -q
+nautilus
+#nohup unity &> /dev/null & disown
 
 echo "## PRESET DEBCONFS ##"
 echo macchanger	macchanger/automatically_run	boolean	false | sudo debconf-set-selections
